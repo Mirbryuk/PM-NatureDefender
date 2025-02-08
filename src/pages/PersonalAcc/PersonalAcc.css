@@ -1,0 +1,443 @@
+/* Основной контейнер */
+.personal-acc-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 80px;
+  height: 100%;
+}
+
+
+.user-info-wrapper {
+  display: flex; /* Размещение элементов в строку */
+  align-items: center; /* Выравнивание элементов по вертикали */
+  gap: 20px; /* Расстояние между картинкой и информацией */
+}
+
+.user-photo {
+  border-radius: 50%; /* Закругление углов изображения, чтобы оно стало круглым */
+  width: 150px; /* Размер фотографии */
+  height: 150px; /* Высота фотографии */
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column; /* Информация о пользователе в колонку */
+  justify-content: center; /* Центрируем текст по вертикали */
+  gap: 10px;
+  max-width: 100%; 
+}
+
+.user-info p,
+.user-info h3 {
+  margin: 0; /* Убираем стандартные отступы у заголовков и параграфов */
+  padding: 0; /* Убираем отступы */
+}
+
+/* Общий стиль для всех кнопок */
+.action-btn {
+  padding: 6px 12px; /* Компактные внутренние отступы */
+  font-size: 14px; /* Уменьшенный размер текста */
+  border: none;
+  border-radius: 25px; /* Лёгкое закругление */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block; /* Кнопки не растягиваются по ширине */
+  width: 250px; /* Размер кнопки зависит от текста */
+  text-align: center; /* Текст по центру */
+}
+
+/* Дополнительный эффект при наведении */
+.action-btn:hover {
+  transform: scale(1.05); /* Эффект увеличения при наведении */
+}
+
+/* Индивидуальные стили кнопок */
+.edit-btn {
+  background-color: #0A7075;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #0A7075;
+}
+
+.save-btn {
+  background-color: #0A7075;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #0A7075;
+}
+
+.cancel-btn {
+  background-color: #0A7075;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #0A7075;
+}
+
+.logout-btn {
+  background-color: #0A7075;
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #0A7075;
+}
+
+/* Контейнер для колонок (пользовательская информация и заявки) */
+.columns-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px; /* Расстояние между колонками */
+  width: 100%;
+}
+
+/* Контейнер для кнопки под правым столбцом */
+.apply-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Кнопка "Подать заявку" */
+.apply-btn {
+  padding: 6px 12px; /* Компактные внутренние отступы */
+  font-size: 14px; /* Уменьшенный размер текста */
+  border: none;
+  border-radius: 25px; /* Лёгкое закругление */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block; /* Кнопки не растягиваются по ширине */
+  width: 200px; /* Размер кнопки зависит от текста */
+  text-align: center; /* Текст по центру */
+  background-color: #0A7075;
+}
+
+.apply-btn {
+  background-color: #0A7075;
+  color: white;
+}
+
+.apply-btn:hover {
+  background-color: #0A7075;
+  transform: scale(1.05);
+}
+
+
+
+/* Контейнер для кнопок */
+.user-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap; /* Кнопки переносятся на новую строку, если не помещаются */
+  gap: 30px; /* Расстояние между кнопками */
+  justify-content: center; /* Центрируем кнопки по горизонтали */
+  align-items: center; /* Центрируем кнопки по вертикали */
+  text-align: center; /* Центрируем текст в кнопках */
+}
+
+
+/* Верхняя часть */
+.right-column, .left-column {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Левая колонка (таблица заявок) */
+.left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: rgba(10, 112, 117, 0.49);
+  width: 900px; 
+  height: 100%;
+  color: white; 
+}
+
+/* Заголовок таблицы */
+.left-column h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Таблица заявок */
+.applications-table {
+  width: 100%;
+  border-collapse: collapse; /* Убирает двойные линии между ячейками */
+  text-align: left;
+  font-size: 14px;
+  background-color: #1A797F;
+  border-radius: 10px;
+  overflow: hidden; /* Для закругления углов таблицы */
+}
+
+/* Заголовки таблицы */
+.applications-table th {
+  background-color: #0A7075;
+  color: white;
+  padding: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Ячейки таблицы */
+.applications-table td {
+  padding: 10px;
+  border-bottom: 1px solid #1A797F;
+}
+
+/* Последняя строка таблицы (без границы) */
+.applications-table tr:last-child td {
+  border-bottom: none;
+}
+
+
+.applications-table tr:nth-child(even) {
+  background-color: #0A7075;
+}
+
+/* Правая колонка (пользовательская информация) */
+.right-column {
+  flex: 1; 
+  color: white; 
+  padding: 20px; /* Уменьшаем внутренние отступы */
+  border-radius: 12px;
+  background-color: rgba(10, 112, 117, 0.49);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Стиль для полей ввода в режиме редактирования */
+.edit-form input {
+  background-color: #f0f0f0; /* Серый фон */
+  color: #000000; /* Черный текст */
+  border: 1px solid #ccc; /* Легкая рамка */
+  padding: 8px 12px; /* Отступы внутри полей */
+  border-radius: 4px; /* Закругление углов */
+  font-size: 14px; /* Размер шрифта */
+  width: 100%; /* Поле растягивается на всю ширину */
+  box-sizing: border-box; /* Учитываем отступы и рамки в ширине */
+}
+
+/* При фокусе на поле (когда оно активно) */
+.edit-form input:focus {
+  background-color: #e6e6e6; /* Немного темнее фон при фокусе */
+  border-color: #0A7075; /* Зеленая рамка при фокусе */
+  outline: none; /* Убираем стандартный фокус */
+}
+
+.footer-con-vop{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.feedback-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #0A7075;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.feedback-icon:hover {
+  background-color: #14BBC3;
+}
+
+
+
+
+
+/* Модальное окно */
+/* Увеличенный попап с закругленными углами */
+.custom-modal .modal-dialog {
+  max-width: 70%;
+  width: 70%;
+  max-height: 90vh; /* Высота 90% экрана */
+  height: 90vh;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Закругленные углы для содержимого */
+.custom-modal .modal-content {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Заполняем всю высоту модального окна */
+  width: 100%;
+}
+
+/* Растягиваем тело модального окна */
+.modal-body {
+  padding: 0; /* Убираем лишние отступы */
+  background-color: #1f7b80;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+/* Контейнер с картинкой и формой */
+.modal-content-wrapper {
+  display: flex; /* Включаем flex */
+  align-items: center;
+  justify-content: space-between;
+  height: 100%; /* Растягиваем на всю высоту */
+  width: 100%;
+  padding: 2rem;
+  gap: 20px;
+}
+
+/* Левая часть с картинкой */
+.modal-image-wrapper {
+  flex: 1; /* Занимает 1 часть доступного пространства */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Полная высота */
+}
+
+.modal-img {
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+  border-radius: 15px;
+  object-fit: cover; /* Чтобы картинка красиво вписывалась */
+}
+
+/* Правая часть с формой */
+.modal-form-wrapper {
+  flex: 2; /* Форма занимает больше места */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Выравниваем форму к верхнему краю */
+  align-items: flex-start; /* Оставляем элементы слева внутри формы */
+  height: 100%;
+}
+
+/* Обновленные input, textarea и другие элементы формы */
+.inputDiv {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7% 93%;
+  margin: 25px 0;
+  padding: 5px 0;
+  border-bottom: 2px solid #d9d9d9;
+}
+
+.inputWrapper h5 {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  font-size: 18px;
+  transition: .3s;
+}
+
+.inputDiv:before,
+.inputDiv:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: #ffffff;
+  transition: .4s;
+}
+
+
+.inputDiv.focus:before,
+.inputDiv.focus:after {
+  width: 100%;
+  background-color: #1bb1b9;
+}
+
+/* Когда поле в фокусе, заголовок поднимается */
+.inputDiv.focus .inputWrapper h5 {
+  top: -10px; /* Поднимаем немного выше */
+  font-size: 15px;
+  color: #1bb1b9; /* Цвет изменяется, чтобы соответствовать стилям */
+}
+
+
+
+.inputDiv .icon {
+  position: relative;  /* добавляем относительное позиционирование */
+  left: -20px;         /* сдвигаем влево */
+  color: #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.inputDiv.focus .icon i {
+  color: #1bb1b9;
+}
+
+.inputDiv .inputWrapper input,
+.inputDiv .inputWrapper textarea {
+  padding-top: 30px; /* Добавляем отступ сверху, чтобы избежать перекрытия */
+  padding-bottom: 10px; /* Немного снизу */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0.5rem 0.7rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+
+.buttonsWrapper .btn {
+  display: block;
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(to right, #0A7075, #0f8086, #18abb3);
+  background-size: 200%;
+  font-size: 1.2rem;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.buttonsWrapper .btn:hover {
+  background-position: right;
+}
+
+
+

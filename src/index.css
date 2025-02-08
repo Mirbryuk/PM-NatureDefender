@@ -1,0 +1,44 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  
+}
+/* Сброс некоторых стилей по умолчанию */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Установка шрифта и цвета фона */
+body {
+  font-family: 'Montserrat Alternates', sans-serif;
+  background-color: #3EB8BD;
+  color: #000000; /* Изменено на чёрный для лучшей читабельности */
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh; 
+  margin: 0; 
+  
+}
+
+/* Основной контейнер */
+.main-container {
+  max-width: 1250px;
+  margin-top: 55px;
+  padding: 20px 0; /* Добавим отступы сверху и снизу */
+  flex: 1; /* Добавим флекс-свойство для растяжения */
+}

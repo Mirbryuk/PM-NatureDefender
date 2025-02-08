@@ -1,0 +1,199 @@
+.registerContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 20px;
+}
+
+.registerImage {
+    width: 45%;
+    height: auto;
+    margin-left: 10rem;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center; /* Центрируем контейнер по горизонтали */
+    align-items: center; /* Центрируем контейнер по вертикали */
+    
+    border: 5px solid #ffffff;
+    border-radius: 75px;
+}
+
+.registerContent {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    width: 70%; /* Ширина контейнера для формы */
+}
+
+.registerContent h2 {
+    margin: 15px 0;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 3.3rem;
+    margin-left: -40px;
+}
+
+.inputDiv {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin: 25px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #ffffff;
+}
+
+.inputDiv.one {
+    margin-top: 0;
+}
+
+.i {
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.i i {
+    transition: .3s;
+}
+
+.inputWrapper {
+    position: relative;
+    height: 60px;
+}
+
+.inputWrapper h5 {
+    position: absolute;
+    left: 10px;
+    top: 55%;
+    transform: translateY(-50%);
+    color: #ffffff;
+    font-size: 18px;
+    transition: .3s;
+    pointer-events: none;
+}
+
+.inputDiv.focus .inputWrapper h5,
+.inputDiv input:focus + .inputWrapper h5 {
+    top: -20px;
+    font-size: 15px;
+    color: #0A7075;
+    z-index: 2;
+}
+
+.inputDiv input:valid,
+.inputDiv input:not(:placeholder-shown) {
+    border-bottom: 2px solid #0A7075;
+}
+
+.inputDiv:before,
+.inputDiv:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: #0A7075;
+    transition: .4s;
+}
+
+.inputDiv:before {
+    right: 50%;
+}
+
+.inputDiv:after {
+    left: 50%;
+}
+
+.inputDiv.focus:before,
+.inputDiv.focus:after {
+    width: 50%;
+}
+
+.inputDiv.focus .inputWrapper h5 {
+    top: -10px;
+    font-size: 15px;
+    color: #0A7075;
+    z-index: 2;
+}
+
+.inputDiv.focus .i i {
+    color: #0A7075;
+}
+
+.inputDiv input:valid,
+.inputDiv.focus input {
+    border-bottom: 2px solid #0A7075;
+}
+
+.inputDiv .inputWrapper input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.5rem 0.7rem;
+    font-size: 1.2rem;
+    color: #ffffff;
+    z-index: 0;
+}
+
+.inputDiv.pass {
+    margin-bottom: 3px;
+}
+
+/* Стили для кнопок и ссылки на регистрацию */
+.buttonsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    outline: none;
+    border: none;
+    background-image: linear-gradient(to right, #0A7075, #0f8086, #18abb3);
+    background-size: 200%;
+    font-size: 1.2rem;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.btn:hover {
+    background-position: right;
+}
+
+.registerLink {
+    color: #ffffff;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.registerLink:hover {
+    color: #0A7075;
+}
+
+.registerLink span {
+    color: #0A7075;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.registerLink span:hover {
+    color: #0A7075;
+}
