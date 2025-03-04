@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -22,7 +21,3 @@ Currently, two official plugins are available:
 - pip install pydantic
 - pip install asyncpg psycopg2-binary для баззы данных
 - npm install axios
-=======
-# Web_app_VKR25
->>>>>>> 14712b2de8c0f36c0bcc7432f9e98d90b0ffc940
-#
