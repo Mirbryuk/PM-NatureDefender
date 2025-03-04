@@ -268,13 +268,37 @@
 
 
 /* Модальное окно */
-/* Увеличенный попап с закругленными углами */
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 55px;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  color: #0A7075;
+}
+
+
+.modal-form-title {
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff; /* Цвет текста */
+}
+
 .custom-modal .modal-dialog {
-  max-width: 70%;
-  width: 70%;
-  max-height: 90vh; /* Высота 90% экрана */
-  height: 90vh;
-  border-radius: 40px;
+  max-width: 50%;
+  width: 50%;
+  max-height: 70vh; 
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,17 +306,16 @@
 
 /* Закругленные углы для содержимого */
 .custom-modal .modal-content {
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  height: 100%; /* Заполняем всю высоту модального окна */
-  width: 100%;
+  border-radius: 70px;
+  overflow: hidden;
 }
 
 /* Растягиваем тело модального окна */
 .modal-body {
   padding: 0; /* Убираем лишние отступы */
-  background-color: #1f7b80;
+  background-color: #059aa1;
   color: #fff;
   flex: 1;
   display: flex;
@@ -305,36 +328,27 @@
   display: flex; /* Включаем flex */
   align-items: center;
   justify-content: space-between;
-  height: 100%; /* Растягиваем на всю высоту */
-  width: 100%;
   padding: 2rem;
-  gap: 20px;
+  gap: 30px;
 }
 
 /* Левая часть с картинкой */
 .modal-image-wrapper {
-  flex: 1; /* Занимает 1 часть доступного пространства */
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100%; /* Полная высота */
 }
 
 .modal-img {
-  width: 100%;
-  max-width: 350px;
-  height: 100%;
-  border-radius: 15px;
+  max-width: 400px;
   object-fit: cover; /* Чтобы картинка красиво вписывалась */
 }
 
 /* Правая часть с формой */
 .modal-form-wrapper {
-  flex: 2; /* Форма занимает больше места */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Выравниваем форму к верхнему краю */
-  align-items: flex-start; /* Оставляем элементы слева внутри формы */
+  justify-content: right; /* Выравниваем форму к верхнему краю */
+  align-items: right; /* Оставляем элементы слева внутри формы */
   height: 100%;
 }
 
@@ -343,9 +357,9 @@
   position: relative;
   display: grid;
   grid-template-columns: 7% 93%;
-  margin: 25px 0;
+  margin: 40px 0;
   padding: 5px 0;
-  border-bottom: 2px solid #d9d9d9;
+  border-bottom: 2px solid #ffffff;
 }
 
 .inputWrapper h5 {
@@ -373,14 +387,14 @@
 .inputDiv.focus:before,
 .inputDiv.focus:after {
   width: 100%;
-  background-color: #1bb1b9;
+  background-color: #0A7075;
 }
 
 /* Когда поле в фокусе, заголовок поднимается */
 .inputDiv.focus .inputWrapper h5 {
   top: -10px; /* Поднимаем немного выше */
   font-size: 15px;
-  color: #1bb1b9; /* Цвет изменяется, чтобы соответствовать стилям */
+  color: #0A7075; /* Цвет изменяется, чтобы соответствовать стилям */
 }
 
 
@@ -388,7 +402,7 @@
 .inputDiv .icon {
   position: relative;  /* добавляем относительное позиционирование */
   left: -20px;         /* сдвигаем влево */
-  color: #d9d9d9;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -397,7 +411,7 @@
 
 
 .inputDiv.focus .icon i {
-  color: #1bb1b9;
+  color: #0A7075;
 }
 
 .inputDiv .inputWrapper input,

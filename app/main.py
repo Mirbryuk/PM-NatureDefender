@@ -28,7 +28,19 @@ import os
 import uuid
 import base64
 from fastapi.security import OAuth2PasswordBearer
-
+from shapely.wkt import loads as wkt_loads
+from geoalchemy2.shape import from_shape
+from shapely.geometry import Point
+from geoalchemy2.functions import ST_AsText
+from geoalchemy2.shape import to_shape
+from shapely.geometry import mapping
+from typing import List
+from .schemas import Application
+from typing import List
+from fastapi import Depends, HTTPException
+from sqlalchemy.orm import Session
+from . import models, schemas
+from .database import SessionLocal  
 
 # Создаем таблицы
 models.Base.metadata.create_all(bind=engine)
@@ -151,12 +163,45 @@ async def save_and_crop_image(file: UploadFile):
 # CRUD для Application
 @app.post("/applications/", response_model=schemas.Application)
 def create_application(application: schemas.ApplicationCreate, db: Session = Depends(get_db)):
-    print(application.dict())
-    db_application = models.Application(**application.dict())
+    # Получаем пользователя по его email
+    db_user = db.query(models.User).filter(models.User.email == application.email).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Пользователь не найден")
+    
+    try:
+        # Преобразуем координаты в объект Point
+        location = Point(application.location.coordinates[0], application.location.coordinates[1])
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Ошибка обработки геопозиции: {str(e)}")
+
+    # Создаем запись с преобразованной локацией
+    db_application = models.Application(
+        email=application.email,
+        photo=application.photo,
+        location=from_shape(location, srid=4326),  # Сохраняем как точку в базе данных
+        description=application.description,
+        user_id=db_user.id
+    )
+
     db.add(db_application)
     db.commit()
     db.refresh(db_application)
-    return db_application
+    
+    # Преобразуем сохраненную геолокацию в формат GeoJSON перед отправкой ответа
+    location_geojson = mapping(to_shape(db_application.location))  # Преобразуем в GeoJSON
+
+    # Возвращаем объект с правильной геолокацией
+    return { 
+        "id": db_application.id,
+        "email": db_application.email,
+        "photo": db_application.photo,
+        "location": location_geojson,  # Форматируем location в GeoJSON
+        "description": db_application.description,
+        "status": db_application.status,
+        "created_at": db_application.created_at,
+        "user_id": db_application.user_id
+    }
+
 
 @app.get("/applications/", response_model=list[schemas.Application])
 def get_applications(
@@ -196,20 +241,32 @@ def update_application_status(
     db.refresh(db_application)
     return db_application
 
-@app.get("/applications/email/{email}")
+@app.get("/applications/email/{email}", response_model=List[schemas.ApplicationBase])
 def get_applications_by_email(email: str, db: Session = Depends(get_db)):
     applications = db.query(models.Application).filter(models.Application.email == email).all()
+    if not applications:
+        raise HTTPException(status_code=404, detail="Заявки не найдены")
     return applications
+
 
 # CRUD для Message
 @app.post("/messages/", response_model=schemas.Message)
 def create_message(message: schemas.MessageCreate, db: Session = Depends(get_db)):
-    print(message)
-    db_message = models.Message(**message.dict())
-    db.add(db_message)
-    db.commit()
-    db.refresh(db_message)
-    return db_message
+    try:
+        db_user = db.query(models.User).filter(models.User.email == message.email).first()
+        if not db_user:
+            raise HTTPException(status_code=404, detail="Пользователь не найден")
+
+        db_message = models.Message(**message.dict(), user_id=db_user.id)
+        db.add(db_message)
+        db.commit()
+        db.refresh(db_message)
+        return db_message
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        raise HTTPException(status_code=500, detail="Ошибка на сервере")
+
+
 
 @app.get("/messages/{message_id}", response_model=schemas.Message)
 def get_message(message_id: int, db: Session = Depends(get_db)):
@@ -344,20 +401,26 @@ async def send_verification_code(email_request: EmailRequest, db: Session = Depe
 
     # Проверяем, существует ли пользователь с таким email
     existing_user = db.query(models.User).filter(models.User.email == email).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Пользователь с этим email уже существует")
+    if not existing_user:
+        raise HTTPException(status_code=400, detail="Пользователь с таким email не существует")
 
     # Генерируем код
     code = generate_verification_code()
 
-    # Сохраняем в базу данных
-    verification_entry = models.EmailVerification(email=email, code=code, expires_at=datetime.utcnow() + timedelta(minutes=10))
+    # Сохраняем в базу данных с привязкой к user_id
+    verification_entry = models.EmailVerification(
+        email=email,
+        code=code,
+        expires_at=datetime.utcnow() + timedelta(minutes=10),
+        user_id=existing_user.id  # Привязываем к пользователю
+    )
     db.add(verification_entry)
     db.commit()
 
     # Отправляем код на email
     await send_email(email_request.email, code)
     return {"message": "Код подтверждения отправлен на ваш email"}
+
 
 #Проверим код на соответствие и срок действия.
 @app.post("/reset-password/")
@@ -437,3 +500,25 @@ async def get_data(parameter: str):
     return {"parameter": parameter}
 
 
+@app.get("/get_location/{application_id}")
+def get_application_location(application_id: int, db: Session = Depends(get_db)):
+    # Получаем заявку по ID
+    application = db.query(models.Application).filter(models.Application.id == application_id).first()
+    
+    if not application:
+        raise HTTPException(status_code=404, detail="Заявка не найдена")
+    
+    # Получаем геометрическую точку из базы данных
+    location_wkb = application.location  # Предположим, что это WKB
+    
+    # Преобразуем WKB в объект Point
+    location_point = to_shape(location_wkb)
+    
+    # Получаем координаты
+    longitude = location_point.x  # Долгота
+    latitude = location_point.y   # Широта
+    
+    return {
+        "latitude": latitude,
+        "longitude": longitude
+    }

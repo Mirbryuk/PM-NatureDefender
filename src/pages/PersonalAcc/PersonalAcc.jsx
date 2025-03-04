@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import avatars from "../../imgs/avatars.svg"; // Убедитесь, что путь правильный
-import { Modal, Alert, Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import "./PersonalAcc.css";
 
 function PersonalAcc() {
@@ -20,9 +20,7 @@ function PersonalAcc() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [agreementChecked, setAgreementChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [focused, setFocused] = useState({
     name: false,
     email: false,
@@ -137,40 +135,47 @@ function PersonalAcc() {
   };
 
   const handleShowModal = () => {
+    // Сбрасываем данные формы при открытии окна
+    setEmail('');
+    setName('');
+    setDescription('');
+    
     setShowModal(true); // Показываем модальное окно
   };
 
   const handleCloseModal = () => {
+    // Очищаем форму при закрытии окна
+    setEmail('');
+    setName('');
+    setDescription('');
+    
     setShowModal(false); // Закрываем модальное окно
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!agreementChecked) return;
-
+    
     const feedbackData = { email, name, message: description };
 
     setIsSubmitting(true);
 
     try {
+  
       const response = await fetch(`http://localhost:8000/messages/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(feedbackData),
       });
+      console.log("Ответ сервера:", response.status, await response.text());
 
       if (!response.ok) throw new Error('Ошибка при отправке сообщения');
       setIsSubmitting(false);
-      setShowSuccessAlert(true);
-      setTimeout(() => setShowModal(false), 3000); // Закрываем модалку через 3 секунды после успешной отправки
+      
+      setTimeout(() => setShowModal(false), 2000); // Закрываем модалку через 3 секунды после успешной отправки
     } catch (error) {
       console.error('Ошибка:', error);
       setIsSubmitting(false);
     }
-  };
-
-  const handleCloseAlert = () => {
-    setShowSuccessAlert(false);
   };
 
   return (
@@ -294,11 +299,10 @@ function PersonalAcc() {
       {/* Модальное окно с формой обратной связи */}
       <Modal show={showModal} onHide={handleCloseModal} centered className="custom-modal">
         <Modal.Body>
-          {showSuccessAlert && (
-            <Alert variant="success" onClose={handleCloseAlert} dismissible>
-              Сообщение отправлено!
-            </Alert>
-          )}
+          {/* Кнопка закрытия */}
+          <button className="close-btn" onClick={handleCloseModal}>
+            &times;
+          </button>
 
           <div className="modal-content-wrapper">
             {/* Левая часть - картинка */}
@@ -308,6 +312,7 @@ function PersonalAcc() {
 
             {/* Правая часть - форма */}
             <div className="modal-form-wrapper">
+              <h2 className="modal-form-title">Напишите нам</h2>
               <form onSubmit={handleSubmit}>
                 <div className={`inputDiv ${focused.name || name ? 'focus' : ''}`}>
                   <div className="icon">
